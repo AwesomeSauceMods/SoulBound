@@ -1,0 +1,8 @@
+tile.soulbound.decorative1.name=Soul Block
+tile.soulbound.decorative2.name=Soul Brick
+tile.soulbound.decorative3.name=Pure Soul Block
+tile.soulbound.soulLock.name=Soul Lock
+tile.soulbound.pureSoulLock.name=Pure Soul Lock
+item.soulbound.soulKey.name=Soul Key
+item.soulbound.pureSoulKey.name=Pure Soul Key
+itemGroup.SoulBound=SoulBound
