@@ -45,11 +45,12 @@ object SoulBound extends TAwesomeSauceMod {
   def preInit() = {
     decorativeCount = config.get("general", "decorativeCount", 3).getInt
     soulLockCount = config.get("general", "soulLockCount", 2).getInt
-    for (i <- Range(1, decorativeCount + 1))
-      decorative(i) = ItemUtil.makeBlock(this, "decorative" + i, Material.rock).setBlockUnbreakable().setResistance(-1)
-    for (i <- Range(1, soulLockCount + 1)) {
-      soulKey(i) = ItemUtil.makeItem(this, "soulKey")
-      soulLock(i) = ItemUtil.makeBlock(this, "soulLock", Material.rock, () => new TileEntitySoulLock(new ItemStack(soulKey(i)))).setBlockUnbreakable().setResistance(-1)
+    for (i <- Range(0, decorativeCount))
+      decorative append ItemUtil.makeBlock(this, "decorative" + (i + 1).toString, Material.rock).setBlockUnbreakable().setResistance(-1)
+    for (i <- Range(0, soulLockCount)) {
+      val key = ItemUtil.makeItem(this, "soulKey" + (i + 1).toString)
+      soulKey append key
+      soulLock append ItemUtil.makeBlock(this, "soulLock" + (i + 1).toString, Material.rock, () => new TileEntitySoulLock(new ItemStack(key)).setBlockUnbreakable().setResistance(-1)
     }
   }
 
