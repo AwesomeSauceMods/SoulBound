@@ -3,15 +3,25 @@ package com.awesomesauce.minecraft.forge.soulbound
 import com.awesomesauce.minecraft.forge.core.components.AwesomeSauceComponents
 import com.awesomesauce.minecraft.forge.core.lib.TAwesomeSauceMod
 import com.awesomesauce.minecraft.forge.core.lib.util.ItemUtil
-import cpw.mods.fml.common.{ModMetadata, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.{FMLPostInitializationEvent, FMLInitializationEvent, FMLPreInitializationEvent}
+import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import cpw.mods.fml.common.{Mod, ModMetadata}
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
-import net.minecraft.item.{ItemStack, Item}
+import net.minecraft.item.{Item, ItemStack}
+
+import scala.collection.mutable.ArrayBuffer
 
 @Mod(modid="SoulBound", modLanguage="scala")
 object SoulBound extends TAwesomeSauceMod {
+
+  val decorativeCount = 3
+  val soulLockCount = 2
+  @Mod.Metadata("SoulBound")
+  var metadata: ModMetadata = null
+  var soulKey: ArrayBuffer[Item] = ArrayBuffer[Item]()
+  var soulLock: ArrayBuffer[Block] = ArrayBuffer[Block]()
+  var decorative: ArrayBuffer[Block] = ArrayBuffer[Block]()
 
   @EventHandler
   def aspri(e: FMLPreInitializationEvent) = super.awesomesaucepreinit(e)
@@ -30,24 +40,13 @@ object SoulBound extends TAwesomeSauceMod {
 
   def getTabIconItem = () => AwesomeSauceComponents.ingotPureAwesomeite
 
-  @Mod.Metadata("SoulBound")
-  var metadata: ModMetadata = null
-  var soulKey: Item = null
-  var pureSoulKey: Item = null
-  var soulLock: Block = null
-  var pureSoulLock: Block = null
-  var decorative1: Block = null
-  var decorative2: Block = null
-  var decorative3: Block = null
-
   def init() = {
-    decorative1 = ItemUtil.makeBlock(this, "decorative1", Material.rock).setBlockUnbreakable().setResistance(-1)
-    decorative2 = ItemUtil.makeBlock(this, "decorative2", Material.rock).setBlockUnbreakable().setResistance(-1)
-    decorative3 = ItemUtil.makeBlock(this, "decorative3", Material.rock).setBlockUnbreakable().setResistance(-1)
-    soulKey = ItemUtil.makeItem(this, "soulKey")
-    pureSoulKey = ItemUtil.makeItem(this, "pureSoulKey")
-    soulLock = ItemUtil.makeBlock(this, "soulLock", Material.rock, () => new TileEntitySoulLock(new ItemStack(soulKey))).setBlockUnbreakable().setResistance(-1)
-    pureSoulLock = ItemUtil.makeBlock(this, "pureSoulLock", Material.rock, () => new TileEntitySoulLock(new ItemStack(pureSoulKey))).setBlockUnbreakable().setResistance(-1)
+    for (i <- Range(1, decorativeCount + 1))
+      decorative(i) = ItemUtil.makeBlock(this, "decorative"+i, Material.rock).setBlockUnbreakable().setResistance(-1)
+    for (i <- Range(1, soulLockCount + 1)) {
+      soulKey(i) = ItemUtil.makeItem(this, "soulKey")
+      soulLock(i) = ItemUtil.makeBlock(this, "soulLock", Material.rock, () => new TileEntitySoulLock(new ItemStack(soulKey(i)))).setBlockUnbreakable().setResistance(-1)
+    }
   }
 
   def preInit() = {
