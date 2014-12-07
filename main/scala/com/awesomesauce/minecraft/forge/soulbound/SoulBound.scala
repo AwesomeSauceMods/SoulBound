@@ -15,8 +15,8 @@ import scala.collection.mutable.ArrayBuffer
 @Mod(modid="SoulBound", modLanguage="scala")
 object SoulBound extends TAwesomeSauceMod {
 
-  val decorativeCount = 3
-  val soulLockCount = 2
+  var decorativeCount = 3
+  var soulLockCount = 2
   @Mod.Metadata("SoulBound")
   var metadata: ModMetadata = null
   var soulKey: ArrayBuffer[Item] = ArrayBuffer[Item]()
@@ -39,18 +39,18 @@ object SoulBound extends TAwesomeSauceMod {
   def getTextureDomain = "soulbound"
 
   def getTabIconItem = () => AwesomeSauceComponents.ingotPureAwesomeite
-
   def init() = {
+  }
+
+  def preInit() = {
+    decorativeCount = config.get("general", "decorativeCount", 3).getInt
+    soulLockCount = config.get("general", "soulLockCount", 2).getInt
     for (i <- Range(1, decorativeCount + 1))
-      decorative(i) = ItemUtil.makeBlock(this, "decorative"+i, Material.rock).setBlockUnbreakable().setResistance(-1)
+      decorative(i) = ItemUtil.makeBlock(this, "decorative" + i, Material.rock).setBlockUnbreakable().setResistance(-1)
     for (i <- Range(1, soulLockCount + 1)) {
       soulKey(i) = ItemUtil.makeItem(this, "soulKey")
       soulLock(i) = ItemUtil.makeBlock(this, "soulLock", Material.rock, () => new TileEntitySoulLock(new ItemStack(soulKey(i)))).setBlockUnbreakable().setResistance(-1)
     }
-  }
-
-  def preInit() = {
-
   }
 
   def postInit() = {
