@@ -50,7 +50,7 @@ object SoulBound extends TAwesomeSauceMod {
     for (i <- Range(0, soulLockCount)) {
       val key = ItemUtil.makeItem(this, "soulKey" + (i + 1).toString)
       soulKey append key
-      soulLock append ItemUtil.makeBlock(this, "soulLock" + (i + 1).toString, Material.rock, () => new TileEntitySoulLock(new ItemStack(key)).setBlockUnbreakable().setResistance(-1)
+      soulLock append ItemUtil.makeBlock(this, "soulLock" + (i + 1).toString, Material.rock, () => new TileEntitySoulLock(new ItemStack(key))).setBlockUnbreakable().setResistance(-1)
     }
   }
 
