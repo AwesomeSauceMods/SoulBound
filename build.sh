@@ -10,3 +10,4 @@ git clone https://github.com/AwesomeSauceMods/SoulBound.git src
 cd ..
 bash gradlew setupCiWorkspace
 bash gradlew SoulBound:build
+#
